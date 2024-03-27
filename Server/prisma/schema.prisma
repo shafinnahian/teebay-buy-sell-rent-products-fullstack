@@ -12,3 +12,62 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  userid Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String 
+  createAt DateTime @default(now())
+
+  product Product[]
+
+  productsBought ProductSold[] @relation("buyerProductSold")
+  productSold ProductSold[] @relation("sellerProductSold")
+
+  productRentFrom ProductRent[] @relation("productRentFrom")
+  productRentTo ProductRent[] @relation("productRentTo")
+}
+
+// has 1 - n relationship w/ User
+model Product {
+  productid Int @id @default(autoincrement())
+  name String
+  category String[]
+  datePosted DateTime @default(now())
+  description String?
+  price Int
+  rentPrice Int
+  softDelStat Boolean
+  user User @relation(fields: [userid], references: [userid])
+  userid Int
+
+  productSold ProductSold?
+  productRent ProductRent[]
+}
+
+// has 1 - 1 relationship with Product
+model ProductSold {
+  productsold_id Int @id @default(autoincrement())
+  buyer User @relation("buyerProductSold", fields: [buyerid], references: [userid])
+  buyerid Int
+  seller User @relation("sellerProductSold", fields: [sellerid], references: [userid])
+  sellerid Int
+  product Product? @relation(fields: [productid], references: [productid])
+  productid Int @unique // As it is one-to-one relationship, the value must be unique
+                        // hence, Prisma must be acknowledged of such case -> @unique
+  dateSold DateTime @default(now())
+}
+
+// has 1 - n relationship with Product
+model ProductRent{
+  productrent_id Int @id @default(autoincrement())
+  rentfrom User @relation("productRentFrom", fields: [rentfrom_id], references: [userid])
+  rentfrom_id Int
+  rentTo User @relation("productRentTo", fields: [rentto_id], references: [userid])
+  rentto_id Int
+  product Product @relation(fields: [productid], references: [productid])
+  productid Int
+  rentdate DateTime @default(now())
+  duedate DateTime
+}
