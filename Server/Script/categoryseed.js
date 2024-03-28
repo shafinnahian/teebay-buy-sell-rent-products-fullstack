@@ -11,6 +11,13 @@ async function main(){
         {name: 'OUTDOOR'}
     ];
 
+    const existingCategories = await prisma.category.findMany();
+
+    if (existingCategories.length > 0){
+        console.log('Rows exists.')
+        return;
+    }
+    
     await prisma.category.createMany({
         data: seedingData
     });
