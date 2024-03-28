@@ -120,7 +120,7 @@ class UserController {
         }
     })
 
-    getUserInfo = async (req, res, next) => {
+    getUserInfo = asyncHandler(async (req, res) => {
         const {userID} = req.params;
 
         if (isNaN(userID)){
@@ -147,9 +147,9 @@ class UserController {
 
         } catch (error){
             res.status(500)
-            next(error);
+            throw new Error(error.message);
         }
-    };
+    });
 }
 
 export default UserController;
