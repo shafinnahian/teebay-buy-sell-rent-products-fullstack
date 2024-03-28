@@ -44,6 +44,8 @@ model Product {
 
   productSold ProductSold?
   productRent ProductRent[]
+
+  cateoryproduct CategoryProduct[]
 }
 
 // has 1 - 1 relationship with Product
@@ -70,4 +72,24 @@ model ProductRent{
   productid Int
   rentdate DateTime @default(now())
   duedate DateTime
+}
+
+// This table has all the categories in it. It will be used as a relational table with CategoryProduct
+model Category{
+  categoryid Int @id @default(autoincrement())
+  name String
+
+  categoryproduct CategoryProduct[]
+}
+
+// one-to-n relationship with both product and category table. 
+// As one product can have multiple categories, this table keeps tab on that
+model CategoryProduct{
+  categoryproduct_id Int @id @default(autoincrement())
+
+  product Product @relation(fields: [productid], references: [productid])
+  productid Int
+
+  category Category @relation(fields: [categoryid], references: [categoryid])
+  categoryid Int
 }

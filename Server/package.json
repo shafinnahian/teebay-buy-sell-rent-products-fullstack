@@ -1,6 +1,9 @@
 {
   "name": "server",
   "version": "1.0.0",
+  "prisma":{
+    "seed":"node Script/categoryseed.js"
+  },
   "description": "",
   "type": "module",
   "main": "server.js",
