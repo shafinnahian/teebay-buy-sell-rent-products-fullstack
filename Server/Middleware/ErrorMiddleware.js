@@ -1,6 +1,6 @@
 const errorMiddleware = (error, req, res, next) => {
-    console.log(`Here is err middleware`);
-    const statusCode = res.statusCode ? res.statusCode : 500;
+    console.log(error.message);
+    const statusCode = res.statusCode ? res.statusCode : 500;   // For dynamic set of errors, thus the condition for code
 
     return res.status(statusCode).json({
         message: error.message,
