@@ -33,11 +33,10 @@ model User {
 model Product {
   productid Int @id @default(autoincrement())
   name String
-  category String[]
   datePosted DateTime @default(now())
   description String?
-  price Int
-  rentPrice Int
+  price Int?
+  rentPrice Int?
   softDelStat Boolean
   user User @relation(fields: [userid], references: [userid])
   userid Int
