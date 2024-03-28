@@ -5,6 +5,8 @@ import bodyParser from 'body-parser';
 
 import errorMiddleware from "./Middleware/ErrorMiddleware.js";
 
+import UserRoutes from './Routes/UserRoute.js';
+
 const app = express();
 app.use(cors());
 
@@ -13,6 +15,8 @@ app.use(express.json());
 
 dotenv.config()
 const port = process.env.PORT;
+
+app.use('/user', UserRoutes);
 
 app.get('/', (req, res) => {
     // throw new Error('fake error');
