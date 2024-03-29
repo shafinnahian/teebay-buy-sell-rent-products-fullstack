@@ -33,11 +33,12 @@ model User {
 model Product {
   productid Int @id @default(autoincrement())
   name String
-  datePosted DateTime @default(now())
+  dateposted DateTime @default(now())
+  type Boolean
   description String?
   price Int?
-  rentPrice Int?
-  softDelStat Boolean
+  rentprice Int?
+  softdelstat Boolean? @default(false)
   user User @relation(fields: [userid], references: [userid])
   userid Int
 
@@ -71,6 +72,7 @@ model ProductRent{
   productid Int
   rentdate DateTime @default(now())
   duedate DateTime
+  itemretrieved Boolean? @default(false)
 }
 
 // This table has all the categories in it. It will be used as a relational table with CategoryProduct
