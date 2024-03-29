@@ -7,7 +7,7 @@ In the /Server folder:
 * `npm run build`
 * `INSTALL PRISMA & PRISMA CLIENT`
 * `CREATE DBS CALLED teebaydb`
-* `CONNECT DBS AS PRISMA DOCUMENTATION (check env-copy file)`
+* `CONNECT DBS AS PRISMA DOCUMENTATION (check env-copy file, create .env and paste the content there)`
 * `npm prisma migrate dev --name <NAME YOUR MIGRATION>`
 * `npm run seed` This will automatically generate the Category table's content
 
