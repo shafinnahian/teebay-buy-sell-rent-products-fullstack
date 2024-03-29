@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Dashboard = () => {
@@ -8,7 +8,22 @@ const Dashboard = () => {
   const [rentPrice, setRentPrice] = useState('');
   const [type, setType] = useState('');
   const [categories, setCategories] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const fetchCategory = async (e) => {
+    try {
+        const response = await axios.get('http://localhost:4000/category/getAll');
+        console.log(response.data)
+        setCategoryData(response.data)
+    } catch (err){
+
+    }
+  }
+
+  useEffect(() => {
+    fetchCategory();
+  }, [])
 
   const handleProductCreation = async (e) => {
     e.preventDefault();
@@ -20,7 +35,7 @@ const Dashboard = () => {
         description: description,
         price: price,
         rentPrice: rentPrice,
-        type: type,
+        type: type === "Sell"? true:false,
         category: categories,
       };
 
@@ -34,7 +49,11 @@ const Dashboard = () => {
         setRentPrice('');
         setType('');
         setCategories([]);
+        setTimeout(() => {
+            window.location.href = "/dashboard";
+            }, 500);
       }
+
     } catch (error) {
       console.error('Error creating product:', error);
       alert('Error creating product. Please try again later.');
@@ -80,29 +99,37 @@ const Dashboard = () => {
                 onChange={(e) => setRentPrice(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
-              <input
-                type="text"
-                placeholder="Product Type"
+                <select
                 value={type}
                 onChange={(e) => setType(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
-              />
+                >
+                <option value="Sell">Sell</option>
+                <option value="Rent">Rent</option>
+                </select>
+
               <div>
                 <label htmlFor="categories" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Categories</label>
                 <select
-                  id="categories"
-                  multiple
-                  value={categories}
-                  onChange={(e) => setCategories(Array.from(e.target.selectedOptions, (option) => option.value))}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
+                id="categories"
+                multiple
+                value={categories}
+                onChange={(e) => {
+                    const selectedValues = Array.from(
+                    e.target.selectedOptions,
+                    (option) => parseInt(option.value)
+                    );
+                    setCategories(selectedValues);
+                }}
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
                 >
-                  <option value="electronics">Electronics</option>
-                  <option value="clothing">Clothing</option>
-                  <option value="accessories">Accessories</option>
-                  <option value="home">Home</option>
-                  <option value="kitchen">Kitchen</option>
+                {categoryData.map((category) => (
+                    <option key={category.categoryid} value={category.categoryid}>
+                    {category.name}
+                    </option>
+                ))}
                 </select>
               </div>
               <button type="submit" disabled={loading} className={`w-full bg-blue-500 text-white px-4 py-2 rounded-md ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75'}`}>
