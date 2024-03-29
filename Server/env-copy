@@ -1,0 +1,2 @@
+DATABASE_URL="postgresql://postgres:root@localhost:5432/teebaydb?schema=public"
+PORT=4000

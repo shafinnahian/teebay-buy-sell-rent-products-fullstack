@@ -1,8 +1,8 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "prisma":{
-    "seed":"node Script/categoryseed.js"
+  "prisma": {
+    "seed": "node Script/categoryseed.js"
   },
   "description": "",
   "type": "module",
@@ -10,7 +10,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "server": "nodemon server.js",
-    "build": "npm install && npm run start"
+    "build": "npm install && npm run start",
+    "seed":"node Script/categoryseed.js"
   },
   "keywords": [],
   "author": "",
