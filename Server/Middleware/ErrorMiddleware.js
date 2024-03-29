@@ -4,7 +4,8 @@ const errorMiddleware = (error, req, res, next) => {
 
     return res.status(statusCode).json({
         message: error.message,
-        stack: process.env.NODE_ENV === "development" ? error.stack : null
+        stack: error.stack
+        // process.env.NODE_ENV === "development" ? error.stack : null
     })
 }
 

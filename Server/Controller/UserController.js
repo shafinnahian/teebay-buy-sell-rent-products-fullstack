@@ -63,7 +63,7 @@ class UserController {
     });
 
     loginUser = asyncHandler(async (req, res) => {
-        const jwtSecret = process.env.JWT_SECRET;
+        const jwtSecret = process.env.JWT_SECRET || "aksodjfioasudf980s7adfiu";
 
         const {error, value} = schemaLogin.validate(req.body, {
             stripUnknown: true  // As we don't need Name, we are stripping it off from the function

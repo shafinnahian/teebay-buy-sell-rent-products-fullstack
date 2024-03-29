@@ -1,2 +1,4 @@
+NODE_ENV = development
 DATABASE_URL="postgresql://postgres:root@localhost:5432/teebaydb?schema=public"
 PORT=4000
+JWT_SECRET=aksodjfioasudf980s7adfiu

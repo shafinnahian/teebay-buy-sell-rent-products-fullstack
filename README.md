@@ -1,6 +1,8 @@
 # teebay-buy-sell-rent-products-fullstack
 A web application in which users can register themselves to advertise product they want to sell, or to buy/ rent products from other users. 
 
+Video showcase: https://youtu.be/_ZPg4zz30Ug
+
 ### Installation Guideline [BACKEND]:
 In the /Server folder:
 * `npm i`
