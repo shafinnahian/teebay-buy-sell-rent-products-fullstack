@@ -10,7 +10,11 @@ const LogoutButton = () => {
   };
 
   return (
-    <button onClick={handleLogout} className="text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 focus:outline-none">
+    <button
+      onClick={handleLogout}
+      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 m-6"
+      style={{ float: "right" }} // Style to float the button to the right
+    >
       Logout
     </button>
   );
