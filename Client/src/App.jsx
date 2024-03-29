@@ -1,16 +1,15 @@
 import React from 'react'
-import {Route, Routes} from 'react-router-dom'
-import ShowList from './pages/ShowList'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import UserReg from './views/auth/UserReg'
 
 const App = () => {
   return (
+    <BrowserRouter>    
     <Routes>
-      <Route path='/product/list' element= {ShowList} />
-      {/* <Route path='' element= {} />
-      <Route path='' element= {} />
-      <Route path='' element= {} />
-      <Route path='' element= {} /> */}
+      <Route path='/user/register' element= {<UserReg/>}/>
     </Routes>
+    </BrowserRouter>
   )
 }
 
