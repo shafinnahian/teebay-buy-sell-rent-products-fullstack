@@ -8,4 +8,6 @@ const productSoldController = new ProductSoldController();
 
 route.post('/sellProduct', productSoldController.sellProduct);
 
+route.get('/getSoldProducts/:buyerID', productSoldController.listBoughtProducts);
+
 export default route;

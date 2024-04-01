@@ -9,10 +9,38 @@ const Dashboard = () => {
   const [price, setPrice] = useState('');
   const [rentPrice, setRentPrice] = useState('');
   const [type, setType] = useState('');
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
+  const [selectedCategoryNames, setSelectedCategoryNames] = useState([]);
+  const [showInput, setShowInput] = useState(true);
+
+const handleCategoryClick = (categoryId, categoryName) => {
+    setShowInput(false);
+    if (selectedCategoryIds.includes(categoryId)) {
+      setSelectedCategoryIds((prevSelectedIds) =>
+        prevSelectedIds.filter((id) => id !== categoryId)
+      );
+      setSelectedCategoryNames((prevSelectedNames) =>
+        prevSelectedNames.filter((name) => name !== categoryName)
+      );
+    } else {
+      setSelectedCategoryIds((prevSelectedIds) => [
+        ...prevSelectedIds,
+        categoryId,
+      ]);
+      setSelectedCategoryNames((prevSelectedNames) => [
+        ...prevSelectedNames,
+        categoryName,
+      ]);
+    }
+  };
+
+  console.log("selectedCategoryIds:", selectedCategoryIds);
+  console.log("selectedCategoryNames:", selectedCategoryNames);
   const fetchCategory = async (e) => {
     try {
         const response = await axios.get('http://localhost:4000/category/getAll');
@@ -37,8 +65,8 @@ const Dashboard = () => {
         description: description,
         price: price || 0,
         rentPrice: rentPrice || 0,
-        type: type === "Sell"? true:false,
-        category: categories,
+        type: type === "Sell" ? true : false,
+        category: selectedCategoryIds,
       };
 
       const response = await axios.post(`http://localhost:4000/product/createProduct/${localStorage.getItem('userID')}`, userData);
@@ -50,7 +78,7 @@ const Dashboard = () => {
         setPrice('');
         setRentPrice('');
         setType('');
-        setCategories([]);
+        setSelectedCategoryIds([])
         setTimeout(() => {
             window.location.href = "/dashboard";
             }, 500);
@@ -103,17 +131,18 @@ const Dashboard = () => {
                 onChange={(e) => setRentPrice(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
-                <select
+              <select
                 value={type}
                 onChange={(e) => setType(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
-                >
+              >
+                <option value="">Select Type</option>
                 <option value="Sell">Sell</option>
                 <option value="Rent">Rent</option>
-                </select>
+              </select>
 
-              <div>
+              {/* <div>
                 <label htmlFor="categories" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Categories</label>
                 <select
                 id="categories"
@@ -135,7 +164,43 @@ const Dashboard = () => {
                     </option>
                 ))}
                 </select>
-              </div>
+              </div> */}
+              <div>
+              {showInput ? (
+                <input
+                  type="text"
+                  placeholder="Select Category"
+                  onClick={() => setShowInput(false)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+              ) : (
+                <div>
+                  <div className="flex flex-wrap gap-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {selectedCategoryNames.map((name, i) => (
+                      <p
+                        key={i}
+                        className="bg-gray-300 rounded-3xl px-3 py-1 cursor-pointer"
+                        onClick={() =>
+                          handleCategoryClick(selectedCategoryIds[i], name)
+                        }
+                      >
+                        {name}
+                      </p>
+                    ))}
+                  </div>
+                  {categoryData.map((category) => (
+                    <p
+                      key={category.categoryid}
+                      onClick={() =>
+                        handleCategoryClick(category.categoryid, category.name)
+                      }
+                    >
+                      <label>{category.name}</label>
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
               <button type="submit" disabled={loading} className={`w-full bg-blue-500 text-white px-4 py-2 rounded-md ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75'}`}>
                 {loading ? 'Creating...' : 'Create Product'}
               </button>

@@ -102,6 +102,36 @@ class ProductRentController{
         }
     })
 
+    getRentedProduct_RentTo = asyncHandler(async (req, res) => {
+        const {rentToID} = req.params;
+
+        try {
+            const itemLists = await prisma.productRent.findMany({
+                where:{
+                    rentto_id: Number(rentToID)
+                }
+            })
+            console.log(itemLists);
+            let rentedItems = [];
+
+            for (const iterator of itemLists) {
+                const product = await prisma.product.findFirst({
+                    where:{
+                        productid: iterator.productid
+                    }
+                })
+                iterator.name = product.name;
+                rentedItems.push(iterator);
+            }
+
+            return res.status(200).json(rentedItems);
+
+        } catch (error) {
+            res.status(500);
+            throw new Error(error.message);
+        }
+    })
+
     updateRetrievalStatus = asyncHandler(async (req, res) => {
         const {productID} = req.params;
 

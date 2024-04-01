@@ -62,6 +62,28 @@ class ProductSoldController{
             res.status(500);
             throw new Error(error.message);
         }
+    });
+
+    listBoughtProducts = asyncHandler( async (req, res) => {
+        const {buyerID} = req.params;
+
+        if (isNaN(buyerID)){
+            res.status(400);
+            throw new Error('Bad Request: Missing Required Fields')
+        }
+
+        try {
+            const productList = await prisma.$queryRaw`SELECT *
+            FROM "Product"
+            INNER JOIN "ProductSold" ON "Product".userid="ProductSold".buyerid
+            WHERE userid = ${Number(buyerID)}`;
+
+            return res.status(200).json(productList);
+
+        } catch (error) {
+            res.status(500)
+            throw new Error(error.message)
+        }
     })
 }
 
