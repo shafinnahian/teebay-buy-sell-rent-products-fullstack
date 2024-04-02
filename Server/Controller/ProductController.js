@@ -219,6 +219,50 @@ class ProductController{
             throw new Error(error.message)
         }
     });
+    
+    updateProductInformation = asyncHandler(async (req, res) => {
+        const {error, value} = schemaProductCreation.validate(req.body, {
+            stripUnknown: true
+        }); // Validating all data inserted
+        
+        if (error){
+            res.status(400)
+            throw new Error(error.details[0].message)
+        };
+
+        const {name, description, price, rentPrice, type} = value;
+
+        // Retrieving and validating productID
+        const {productID} = req.params;
+
+        if (isNaN(productID)){
+            res.status(400)
+            throw new Error('Bad Request: Missing Required Field')
+        }
+
+        try {
+            // Once all data is validated, we can proceed with updating the info
+            const result = await prisma.product.update({
+                where:{
+                    productid: Number(productID)
+                },
+                data:{
+                    name: name,
+                    description: description, 
+                    price: price, 
+                    rentprice: rentPrice, 
+                    type: type
+                }
+            });
+
+            return res.status(200).json({
+                message:`Update Successful`
+            });
+        } catch (error) {
+            res.status(500)
+            throw new Error(error.message)
+        }
+    })
 
     softDeleteProduct = asyncHandler(async (req, res) => {
         const {productID} = req.params;
