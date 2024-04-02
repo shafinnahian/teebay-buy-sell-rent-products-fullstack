@@ -211,6 +211,20 @@ class ProductController{
                 }
             })
 
+            let categoryArr = [];
+
+            const categoryList = await prisma.$queryRaw`SELECT "Category".name as CategoryName, "Category".categoryid as categoryID
+            FROM "Category"
+            INNER JOIN "CategoryProduct" ON "Category".categoryid = "CategoryProduct".categoryid
+            INNER JOIN "Product" ON "CategoryProduct".productid = "Product".productid
+            WHERE "Product".productid = ${Number(productID)};`
+
+            const categories = categoryList.map(category => category.categoryname);
+
+            result.Category = categories;
+
+            console.log(result);
+
             return res.status(200).json(
                 result
             );
