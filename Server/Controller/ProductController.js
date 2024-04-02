@@ -240,6 +240,15 @@ class ProductController{
             throw new Error('Bad Request: Missing Required Field')
         }
 
+        // Retrieving Category json string
+        const {category} = req.body;
+
+        // product must be in atleast one category
+        if (category.length === 0) {
+            res.status(400)
+            throw new Error('Bad Request: Missing Required Field')
+        }
+
         try {
             // Once all data is validated, we can proceed with updating the info
             const result = await prisma.product.update({
@@ -255,8 +264,24 @@ class ProductController{
                 }
             });
 
+            await prisma.categoryProduct.deleteMany({
+                where:{
+                    productid:Number(productID)
+                }
+            });
+
+            for (const iterator of category) {
+                console.log(iterator)
+                await prisma.categoryProduct.create({
+                    data:{
+                        productid: Number(productID),
+                        categoryid: iterator
+                    }
+                })
+            }
+
             return res.status(200).json({
-                message:`Update Successful`
+                message:`Update of ${name}: Successful`
             });
         } catch (error) {
             res.status(500)
