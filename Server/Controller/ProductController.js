@@ -220,8 +220,10 @@ class ProductController{
             WHERE "Product".productid = ${Number(productID)};`
 
             const categories = categoryList.map(category => category.categoryname);
+            const categoryIDs = categoryList.map(category => category.categoryid)
 
             result.Category = categories;
+            result.CategoryID = categoryIDs;
 
             console.log(result);
 
