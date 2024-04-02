@@ -6,6 +6,7 @@ import UserLogin from './views/auth/UserLogin';
 import Dashboard from './views/dashboard/Dashboard';
 import OwnProductList from './views/OwnProductList/OwnProductList';
 import Category from './views/dashboard/Category';
+import EditProduct from './views/OwnProductList/EditProduct';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Route path='/dashboard' element = {<Dashboard/>}/>
       <Route path='/ownList' element={<OwnProductList/>}/>
       <Route path='/category' element={<Category/>}/>
+      <Route path='/edit-product/:ProductId' element={<EditProduct/>}/>
     </Routes>
     </BrowserRouter>
   )

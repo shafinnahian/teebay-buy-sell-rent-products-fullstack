@@ -56,6 +56,7 @@ const OwnProductList = () => {
                     >
                     Delete
                     </button>
+                    <a href={`/edit-product/${product.productid}`}>Edit</a>
                     <p className="text-gray-600 mb-2">Description: {product.productid}</p>
                     <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h3>
                     <p className="text-gray-600 mb-2">Description: {product.description}</p>
