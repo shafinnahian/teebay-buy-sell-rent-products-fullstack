@@ -10,6 +10,7 @@ route.post('/createProduct/:userID', productController.createProduct);
 
 route.get('/getProductList', productController.getProductsByType);
 route.get('/getProductList/:userID', productController.getProductList_userID);
+route.get('/getProduct/:productID', productController.getProductByID);
 
 route.put('/softDeleteProduct/:productID', productController.softDeleteProduct);
 

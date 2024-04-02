@@ -196,6 +196,30 @@ class ProductController{
         }
     });
 
+    getProductByID = asyncHandler(async (req, res) => {
+        const {productID} = req.params;
+
+        if (isNaN(productID)){
+            res.status(400)
+            throw new Error('Bad Request: Missing Required Field')
+        }
+
+        try {
+            const result = await prisma.product.findFirst({
+                where:{
+                    productid: Number(productID)
+                }
+            })
+
+            return res.status(200).json(
+                result
+            );
+        } catch (error) {
+            res.status(500)
+            throw new Error(error.message)
+        }
+    });
+
     softDeleteProduct = asyncHandler(async (req, res) => {
         const {productID} = req.params;
 

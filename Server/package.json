@@ -11,7 +11,7 @@
     "start": "nodemon server.js",
     "server": "nodemon server.js",
     "build": "npm install && npm run start",
-    "seed":"node Script/categoryseed.js"
+    "seed": "node Script/categoryseed.js"
   },
   "keywords": [],
   "author": "",
