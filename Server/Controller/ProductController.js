@@ -84,16 +84,6 @@ class ProductController{
     
     // this will be used for both selling and rending lists, hence validating type
     getProductsByType = asyncHandler(async (req, res) => {
-        const {error, value} = schemaTypeValidation.validate(req.body);
-
-        if (error){
-            res.status(400)
-            throw new Error(error.details[0].message)
-        };
-
-        const {type} = value;
-        console.log(type)
-
         try{
             let productList = [];
 
@@ -101,33 +91,24 @@ class ProductController{
             // else, product is for renting
             // hence, the conditional queries below (will list according to type and more)
 
-            if (type){
-                // Will only list the items from Product table that have not been sold i.g. not in ProductSold table
-                // Will only bring items that have not been soft deleted 
-                productList = await prisma.$queryRaw`SELECT *
-                FROM "Product"
-                WHERE NOT EXISTS (
-                    SELECT 1
-                    FROM "ProductSold"
-                    WHERE "ProductSold".productid = "Product".productid
-                ) 
-                AND "Product".type = ${type}
-                AND "Product".softdelstat = false
-                ORDER BY productid ASC;`
-            } else {
-                // Will only list the items from Product table that have not been sold i.g. not false as itemretrieved in ProductRent table
-                // Will only bring items that have not been soft deleted 
-                productList = await prisma.$queryRaw`SELECT *
-                FROM "Product"
-                WHERE NOT EXISTS (
-                    SELECT 1
-                    FROM "ProductRent"
-                    WHERE "ProductRent".productid = "Product".productid
-                    AND  "ProductRent".itemretrieved = false
-                ) 
-                AND "Product".type = ${type}
-				ORDER BY productid ASC;`
-            }
+            
+            // [productSold => Product] Will only list the items from Product table that have not been sold i.g. not in ProductSold table
+            // [productRented => Product] Will only list the items from Product table that have not been rented i.g. not false as itemretrieved in ProductRent table
+            // Will only bring items that have not been soft deleted 
+            productList = await prisma.$queryRaw`SELECT *
+            FROM "Product"
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM "ProductSold"
+                WHERE "ProductSold".productid = "Product".productid
+            ) AND NOT EXISTS (
+                SELECT 1
+                FROM "ProductRent"
+                WHERE "ProductRent".productid = "Product".productid
+                AND  "ProductRent".itemretrieved = false
+            )
+            AND "Product".softdelstat = false
+            ORDER BY productid ASC;`
 
             console.log('productList', productList);
 
