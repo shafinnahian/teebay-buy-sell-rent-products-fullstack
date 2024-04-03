@@ -27,7 +27,7 @@ const SoldList = () => {
       }
     
       return (
-          <div className="flex flex-col gap-4 w-1/2 overflow-auto pt-44">
+          <div className="flex flex-col gap-4 w-1/2 overflow-auto pt-44 m-auto">
             {products.map((el) => (
               <div
                 key={el.productid}
