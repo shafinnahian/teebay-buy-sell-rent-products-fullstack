@@ -3,20 +3,25 @@ import axios from "axios";
 import { toast } from "react-toastify"; 
 
 const AllProducts = () => {
-  const [userID, setUserID] = useState(0);
+  const [userID, setUserID] = useState(localStorage.getItem("userID"));
   useEffect(() => {
     const userIDFromLocalStorage = localStorage.getItem("userID");
-    setUserID(userIDFromLocalStorage);
+    if (userIDFromLocalStorage) {
+      // setUserID(parseInt(userIDFromLocalStorage));
+      // or
+      setUserID(Number(userIDFromLocalStorage));
+    }
   }, []);
 
   const [products, setProducts] = useState([]);
 
   console.log(userID);
-  console.log(`Request URL: http://localhost:4000/product/getAvailableProductList/${userID}`);
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/product/getAvailableProductList/${userID}`);
-      setProducts(response.data);
+      if (userID !== 0) {
+        const response = await axios.get(`http://localhost:4000/product/getAvailableProductList/${userID}`);
+        setProducts(response.data);
+      }
     } catch (error) {
       console.error("Error fetching products:", error);
     }

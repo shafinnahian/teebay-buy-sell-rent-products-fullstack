@@ -1,7 +1,7 @@
 # teebay-buy-sell-rent-products-fullstack
 A web application in which users can register themselves to advertise product they want to sell, or to buy/ rent products from other users. 
 
-Video showcase: https://youtu.be/_ZPg4zz30Ug
+### Front-End Video Demonstration: https://youtu.be/4QZ5G65fNrc
 
 ### Installation Guideline [BACKEND]:
 In the /Server folder:
@@ -68,9 +68,11 @@ In the /Server folder:
 ### Routes
 
 *   **POST /product/createProduct/:userID**
-*   **POST /product/getProductList**
+*   **GET /product/getProductList**
+*   **GET /product//getAvailableProductList/:userID**
 *   **GET /product/getProductList/:userID**
 *   **PUT /product/softDeleteProduct/:productID**
+*   **PUT /product/updateProductInfo/:productID**
 
 * * *
 
@@ -86,11 +88,11 @@ In the /Server folder:
     *   Ensures the product is associated with at least one category.
     *   Creates a new product in the database with associated categories.
     *   Returns a success message upon successful product creation.
-*   **Get Products By Type**
+*   **Get Available Products by UserID**
     
     *   Validates the incoming request body data to ensure the correct type is provided.
     *   Throws a 400 error if validation fails.
-    *   Retrieves a list of products based on the provided type (sell or rent).
+    *   Retrieves a list of products based on excluding the userID's products.
     *   Filters products based on their availability (not sold or not retrieved).
     *   Retrieves associated categories for each product.
     *   Returns a list of products with their associated categories.
@@ -106,6 +108,11 @@ In the /Server folder:
     *   Validates the productID parameter to ensure it is a valid number.
     *   Soft deletes the product by updating its `softdelstat` field to `true`.
     *   Returns a success message upon successful soft deletion.
+*   **Update Product Information**
+    *   Validates the productID parameter to ensure it is a valid number.
+    *   Updates information of the product at hand
+    *   Update associated category list of the product
+    *   returns success message upon updating 
 
 * * *
 ### Errors
@@ -145,6 +152,8 @@ In the /Server folder:
 ### Route
 
 *   **POST /product/sold/sellProduct**
+*   **GET /product/sold/getBoughtProducts/:buyerID**
+*   **GET /product/sold/getSoldProducts/:sellerid**
 
 * * *
 
@@ -158,6 +167,18 @@ In the /Server folder:
     *   Registers the transaction of selling the product in the database.
     *   Updates the owner of the product to the buyer's ID.
     *   Returns a success message upon successful product sale.
+
+*   **Get Bought Products**
+    *   Validates the incoming request params of buyerID to ensure the presence of required fields -> Throws error status 400 otherwise
+    *   Fetches all the products that has been bought by the logged in user
+    *   Binds relevant categories of each product
+    *   Returns the newly processed data with correct success status
+
+*   **Get Bought Products**
+    *   Validates the incoming request params of sellerid to ensure the presence of required fields -> Throws error status 400 otherwise
+    *   Fetches all the products that has been sold by the logged in user
+    *   Binds relevant categories of each product
+    *   Returns the newly processed data with correct success status
 
 * * *
 
@@ -180,6 +201,7 @@ In the /Server folder:
 
 *   **POST /product/rent/rentProduct**
 *   **GET /product/rent/getRentProduct/:rentFromID**
+*   **GET /product/rent/getRentedRentTo/:rentToID**
 *   **PUT /product/rent/updateRentStatus/:productID**
 
 * * *
@@ -196,8 +218,12 @@ In the /Server folder:
     *   Returns a success message upon successful product rental.
 *   **Get Rented Product by User ID**
     
-    *   Retrieves all rented products associated with the provided rentFromID.
+    *   Retrieves all borrowed products associated with the provided rentFromID.
     *   Returns a list of rented products along with their details.
+*   **Get Lent Products by User ID**
+    *   Validates the incoming request params of lentID to ensure the presence of required fields -> Throws error status 400 otherwise
+    *   Retrieves all lented products associated with the provided rentFromID.
+    *   Returns a success message upon successful product rental.
 *   **Update Rent Status**
     
     *   Validates the productID parameter to ensure it is a valid number.

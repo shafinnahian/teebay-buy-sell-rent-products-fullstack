@@ -105,7 +105,7 @@ class ProductController{
                 AND  "ProductRent".itemretrieved = false
             )
             AND "Product".softdelstat = false
-            AND "Product".userid <> ${Number(userID)}
+            AND "Product".userid != ${Number(userID)}
             ORDER BY productid ASC;`
 
             console.log('productList', productList);
