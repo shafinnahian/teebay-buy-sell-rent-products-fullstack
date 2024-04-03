@@ -8,11 +8,6 @@ const schemaProductCreation = Joi.object({
     description: Joi.string().required(),
     price: Joi.number(),
     rentPrice: Joi.number(),
-    type: Joi.boolean().required()
-});
-
-const schemaTypeValidation = Joi.object({
-    type: Joi.boolean().required()
 });
 
 class ProductController{
@@ -28,7 +23,7 @@ class ProductController{
 
         // All attributes of product has been validated
         //Hence, extracting the value
-        const {name, description, price, rentPrice, type} = value;
+        const {name, description, price, rentPrice} = value;
 
         // Retrieving and validating userID
         const {userID} = req.params;
@@ -55,7 +50,6 @@ class ProductController{
                     description: description,
                     price: price,
                     rentprice: rentPrice,
-                    type: type,
                     userid: Number(userID),
                     // softDelStat: false  // Always be taken as false initially from dbs
                 }
@@ -82,8 +76,8 @@ class ProductController{
         }
     });
     
-    // this will be used for both selling and rending lists, hence validating type
-    getProductsByType = asyncHandler(async (req, res) => {
+    // this will be used for both selling and rending lists
+    getProductsByUser = asyncHandler(async (req, res) => {
         const {userID} = req.params;
 
         if (isNaN(userID)){
@@ -93,11 +87,6 @@ class ProductController{
         try{
             let productList = [];
 
-            // if type == true, product is for sell
-            // else, product is for renting
-            // hence, the conditional queries below (will list according to type and more)
-
-            
             // [productSold => Product] Will only list the items from Product table that have not been sold i.g. not in ProductSold table
             // [productRented => Product] Will only list the items from Product table that have not been rented i.g. not false as itemretrieved in ProductRent table
             // Will only bring items that have not been soft deleted 
@@ -236,7 +225,7 @@ class ProductController{
             throw new Error(error.details[0].message)
         };
 
-        const {name, description, price, rentPrice, type} = value;
+        const {name, description, price, rentPrice} = value;
 
         // Retrieving and validating productID
         const {productID} = req.params;
@@ -266,7 +255,6 @@ class ProductController{
                     description: description, 
                     price: price, 
                     rentprice: rentPrice, 
-                    type: type
                 }
             });
 

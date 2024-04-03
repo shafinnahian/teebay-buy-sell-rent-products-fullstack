@@ -8,12 +8,13 @@ import OwnProductList from './views/OwnProductList/OwnProductList';
 import EditProduct from './views/OwnProductList/EditProduct';
 import AllProducts from './views/OwnProductList/AllProducts';
 import ProductType from './views/OwnProductList/ProductType';
-import LogoutButton from './Logout';
+import Navbar from './Navbar';
 
 const App = () => {
   const loggedIn = window.localStorage.getItem("jwtToken");
   return (
     <BrowserRouter>
+    {loggedIn ? <Navbar /> : <></>}
       <Routes>
         {loggedIn ? (
           <Route path="/" element={<OwnProductList />} />
@@ -26,12 +27,11 @@ const App = () => {
             <Route path="/my-product" element={<OwnProductList />} />
             <Route path="/edit-product/:ProductId" element={<EditProduct />} />
             <Route path="/all-product" element={<AllProducts />} />
-            <Route path="/products-type" element={<ProductType />} />
+            <Route path="/history" element={<ProductType />} />
           </>
         )}
         <Route path="/user/register" element={<UserReg />} />
       </Routes>
-      {loggedIn ? <LogoutButton /> : <></>}
     </BrowserRouter>
   );
 };

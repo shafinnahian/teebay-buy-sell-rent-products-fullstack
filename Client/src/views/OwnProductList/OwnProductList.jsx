@@ -44,26 +44,29 @@ const OwnProductList = () => {
 
   return (
     <>
-        <div className="container mx-auto px-4 py-8">
-            <Link to='/add-product' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>Back to Dashboard</Link>
+        <div className="ml-32 px-4">
         <h1 className="text-3xl font-bold text-gray-800 mb-4 pt-6 dark: text-white item-center">My Products</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data.map(product => (
                 <div key={product.productid} className="bg-white rounded-lg shadow-md p-6">
                     <button
+                    className="text-white hover:scale-y-110 transition-transform duration-150 bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
                     onClick={() => deleteModal(product.productid, product.name)}
                     >
                     Delete
                     </button>
-                    <a href={`/edit-product/${product.productid}`}>Edit</a>
-                    <p className="text-gray-600 mb-2">Description: {product.productid}</p>
+                    <a 
+                    className="text-white hover:scale-y-110 transition-transform duration-150 bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-cyan-600 dark:hover:bg-cyan-700 focus:outline-none dark:focus:ring-cyan-800"
+                    href={`/edit-product/${product.productid}`}>Edit</a>
                     <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h3>
-                    <p className="text-gray-600 mb-2">Description: {product.description}</p>
-                    <p className="text-gray-600 mb-2">Price: {product.price}</p>
-                    <p className="text-gray-600 mb-2">Rent Price: {product.rentprice}</p>
-                    <p className="text-gray-600 mb-2">Type: {product.type === true? "Sell":"Rent"}</p>
+                    <p className="text-gray-600 mb-2">
+                    <span className='font-bold'>Description</span>: {product.description}</p>
+                    <p className="text-gray-600 mb-2">
+                    <span className='font-bold'>Price:</span> {product.price}</p>
+                    <p className="text-gray-600 mb-2">
+                    <span className='font-bold'>Rent Price:</span> {product.rentprice}</p>
                     <div className="text-gray-600 mb-2">
-                        <p>Categories:</p>
+                        <p className='font-bold'>Categories:</p>
                         <ul className="list-disc list-inside">
                             {product.Category && product.Category.length > 0 && product.Category.map(Category => (
                                 <li key={Category.categoryid}>{Category}</li>
@@ -74,9 +77,6 @@ const OwnProductList = () => {
             ))}
         </div>
     </div>
-    {/* Modal To Add New Projects */}
-    {/* Modal To Add New Projects */}
-    {/* Modal To Add New Projects */}
     {modal && productId && (
             <div className="z-10 fixed inset-0 flex items-center justify-center">
             <div
@@ -89,9 +89,13 @@ const OwnProductList = () => {
                 </div>
 
                 <div>
-                    <p>Are you sure you want to delete this product?</p>
-                    <button className='p-2' onClick={deleteProduct}>Yes</button>
-                    <button className='p-2' onClick={toggleModal}>No</button>
+                    <p className='pb-6'>Are you sure you want to delete this product?</p>
+                    <button 
+                    className="text-white hover:scale-y-110 transition-transform duration-150 bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-cyan-600 dark:hover:bg-cyan-700 focus:outline-none dark:focus:ring-cyan-800"
+                    onClick={deleteProduct}>Yes</button>
+                    <button                    
+                    className="text-white hover:scale-y-110 transition-transform duration-150 bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
+                    onClick={toggleModal}>No</button>
                 </div>
 
             </div>

@@ -8,7 +8,6 @@ const Dashboard = () => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [rentPrice, setRentPrice] = useState('');
-  const [type, setType] = useState('');
   // const [categories, setCategories] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -65,7 +64,6 @@ const handleCategoryClick = (categoryId, categoryName) => {
         description: description,
         price: price || 0,
         rentPrice: rentPrice || 0,
-        type: type === "Sell" ? true : false,
         category: selectedCategoryIds,
       };
 
@@ -77,7 +75,6 @@ const handleCategoryClick = (categoryId, categoryName) => {
         setDescription('');
         setPrice('');
         setRentPrice('');
-        setType('');
         setSelectedCategoryIds([])
         setTimeout(() => {
             window.location.href = "/add-product";
@@ -95,7 +92,6 @@ const handleCategoryClick = (categoryId, categoryName) => {
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <Link to='/my-product' className='dark:text-white text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>See List</Link>
         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white p-6">Create a New Product</h1>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -130,40 +126,6 @@ const handleCategoryClick = (categoryId, categoryName) => {
                 onChange={(e) => setRentPrice(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
-              <select
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              >
-                <option value="">Select Type</option>
-                <option value="Sell">Sell</option>
-                <option value="Rent">Rent</option>
-              </select>
-
-              {/* <div>
-                <label htmlFor="categories" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Categories</label>
-                <select
-                id="categories"
-                multiple
-                value={categories}
-                onChange={(e) => {
-                    const selectedValues = Array.from(
-                    e.target.selectedOptions,
-                    (option) => parseInt(option.value)
-                    );
-                    setCategories(selectedValues);
-                }}
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-                >
-                {categoryData.map((category) => (
-                    <option key={category.categoryid} value={category.categoryid}>
-                    {category.name}
-                    </option>
-                ))}
-                </select>
-              </div> */}
               <div>
               {showInput ? (
                 <input

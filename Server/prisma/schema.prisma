@@ -34,7 +34,6 @@ model Product {
   productid Int @id @default(autoincrement())
   name String
   dateposted DateTime @default(now())
-  type Boolean
   description String?
   price Int?
   rentprice Int?
