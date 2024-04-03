@@ -8,6 +8,7 @@ import OwnProductList from './views/OwnProductList/OwnProductList';
 import Category from './views/dashboard/Category';
 import EditProduct from './views/OwnProductList/EditProduct';
 import AllProducts from './views/OwnProductList/AllProducts';
+import BorrowedList from './views/OwnProductList/BorrowedList';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Route path='/category' element={<Category/>}/>
       <Route path='/edit-product/:ProductId' element={<EditProduct/>}/>
       <Route path='/all-product' element={<AllProducts/>}/>
+      <Route path='/borrowed-list' element={<BorrowedList/>} />
     </Routes>
     </BrowserRouter>
   )
