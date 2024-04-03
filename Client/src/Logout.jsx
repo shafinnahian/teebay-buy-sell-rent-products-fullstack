@@ -3,10 +3,10 @@ import { toast } from "react-toastify";
 
 const LogoutButton = () => {
   const handleLogout = () => {
-    toast.success("Logout Successful!");
-    setTimeout(() => {
-      window.location.href = "/"; // Redirect to homepage after logout
-    }, 500);
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("userID");
+    localStorage.removeItem("Name");
+    window.location.href = "/";
   };
 
   return (
