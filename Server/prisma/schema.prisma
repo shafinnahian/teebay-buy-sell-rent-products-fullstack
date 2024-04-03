@@ -70,7 +70,7 @@ model ProductRent{
   rentto_id Int
   product Product @relation(fields: [productid], references: [productid])
   productid Int
-  rentdate DateTime @default(now())
+  rentdate DateTime
   duedate DateTime
   itemretrieved Boolean? @default(false)
 }

@@ -4,7 +4,7 @@ import asyncHandler from "express-async-handler";
 
 class ProductRentController{
     rentProduct = asyncHandler(async (req, res) => {
-        const {rentToID, rentFromID, productID , date} = req.body;
+        const {rentToID, rentFromID, productID, rentDate, dueDate} = req.body;
 
         if (isNaN(rentToID) || isNaN(rentFromID) || isNaN(productID)){
             res.status(400);
@@ -36,7 +36,10 @@ class ProductRentController{
         }
 
         try{
-            const duedate = new Date(date);
+            const rentdate = new Date(rentDate);    // Formatting the day it has been rented
+            const formateedRentDate = rentdate.toISOString();
+
+            const duedate = new Date(dueDate);  // Formatting the day it is due
             const formattedDuedate = duedate.toISOString();
 
             // If itemretrieved is false, the item is currently in rent
@@ -59,6 +62,7 @@ class ProductRentController{
                     rentto_id: Number(rentToID),
                     rentfrom_id: Number(rentFromID),
                     productid: Number(productID),
+                    rentdate: formateedRentDate,
                     duedate: formattedDuedate
                 }
             });
@@ -87,11 +91,23 @@ class ProductRentController{
             for (const iterator of itemLists) {
                 const product = await prisma.product.findFirst({
                     where:{
-                        productid: iterator.productid
+                        productid: iterator.productid   // Fetching all relevent information of the product
                     }
                 })
+                const productCategory = await prisma.$queryRaw`SELECT "Category".name
+                FROM "Category"
+                INNER JOIN "CategoryProduct"
+                ON "CategoryProduct".categoryid = "Category".categoryid
+                WHERE "CategoryProduct".productid = ${iterator.productid}`  // Bringing all categories based on products
+
+                const categories = productCategory.map(obj => obj.name);  // Mapping since categoryNames was an array of objects
+
                 iterator.name = product.name;
-                rentedItems.push(iterator);
+                iterator.description = product.description
+                iterator.rentprice = product.rentprice
+                iterator.Category = categories
+
+                rentedItems.push(iterator); // All relevent information has been pushed to a new arr
             }
 
             return res.status(200).json(rentedItems);
@@ -120,8 +136,21 @@ class ProductRentController{
                         productid: iterator.productid
                     }
                 })
+                
+                const productCategory = await prisma.$queryRaw`SELECT "Category".name
+                FROM "Category"
+                INNER JOIN "CategoryProduct"
+                ON "CategoryProduct".categoryid = "Category".categoryid
+                WHERE "CategoryProduct".productid = ${iterator.productid}`  // Bringing all categories based on products
+
+                const categories = productCategory.map(obj => obj.name);  // Mapping since categoryNames was an array of objects
+
                 iterator.name = product.name;
-                rentedItems.push(iterator);
+                iterator.description = product.description
+                iterator.rentprice = product.rentprice
+                iterator.Category = categories
+
+                rentedItems.push(iterator); // All relevent information has been pushed to a new arr
             }
 
             return res.status(200).json(rentedItems);
