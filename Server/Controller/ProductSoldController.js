@@ -73,12 +73,28 @@ class ProductSoldController{
         }
 
         try {
-            const productList = await prisma.$queryRaw`SELECT *
+            const productList = await prisma.$queryRaw`SELECT 
+            "Product".productid AS productID, "Product".name AS name, "Product".price AS price, "Product".description AS description
             FROM "Product"
-            INNER JOIN "ProductSold" ON "Product".userid="ProductSold".buyerid
-            WHERE userid = ${Number(buyerID)}`;
+            INNER JOIN "ProductSold" ON "Product".productid="ProductSold".productid
+            WHERE "ProductSold".buyerid = ${Number(buyerID)}`;
 
-            return res.status(200).json(productList);
+            let productArr = []
+
+            for (const iterator of productList) {
+                const categoryNames = await prisma.$queryRaw`SELECT "Category".name as CategoryName
+                FROM "Category"
+                INNER JOIN "CategoryProduct" ON "Category".categoryid = "CategoryProduct".categoryid
+                INNER JOIN "Product" ON "CategoryProduct".productid = "Product".productid
+                WHERE "Product".productid = ${iterator.productid};`
+
+                const categories = categoryNames.map(obj => obj.categoryname);  // Mapping since categoryNames was an array of objects
+
+                iterator.Category = categories  // Putting it on iterator so that it stays under same object
+                productArr.push(iterator)   // Pushing all data in one array such that productListArr becomes arr of obj
+            }
+
+            return res.status(200).json(productArr);
 
         } catch (error) {
             res.status(500)

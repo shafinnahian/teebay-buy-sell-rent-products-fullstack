@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const BorrowedList = () => {
+const BoughtList = () => {
     const [products, setProducts] = useState([]);
     const userID = localStorage.getItem('userID');
     
@@ -11,7 +11,7 @@ const BorrowedList = () => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:4000/product/rent/getRentedRentTo/${userID}`
+                    `http://localhost:4000/product/sold/getSoldProducts/${userID}`
                 );
                 setProducts(response.data)
             } catch (error) {
@@ -41,14 +41,12 @@ const BorrowedList = () => {
                   ))}
                 </p>
                 {/* <p className="">Price: ${el.price}</p> */}
-                <p className="">Rent Price:${el.rentprice}</p>
+                <p className="">Rent Price:${el.price}</p>
                 <p className="">{el.description}</p>
-                <p className="">Date Rented: {formatDate(el.rentdate)}</p>
-                <p className="">Date Due: {formatDate(el.duedate)}</p>
               </div>
             ))}
           </div>
       );
 }
 
-export default BorrowedList;
+export default BoughtList;
