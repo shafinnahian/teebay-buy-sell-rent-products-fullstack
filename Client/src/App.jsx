@@ -15,8 +15,8 @@ const App = () => {
     <Routes>
       <Route path='/user/register' element= {<UserReg/>}/>
       <Route path='/' element= {<UserLogin/>}/>
-      <Route path='/dashboard' element = {<Dashboard/>}/>
-      <Route path='/ownList' element={<OwnProductList/>}/>
+      <Route path='/add-product' element = {<Dashboard/>}/>
+      <Route path='/my-product' element={<OwnProductList/>}/>
       <Route path='/edit-product/:ProductId' element={<EditProduct/>}/>
       <Route path='/all-product' element={<AllProducts/>}/>
       <Route path='/products-type' element={<ProductType/>}/>

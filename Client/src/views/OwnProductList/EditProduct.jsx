@@ -62,7 +62,7 @@ const EditProduct = () => {
       if (response.status === 200) {
         toast.success("Product Update Successfully!!!");
         setTimeout(() => {
-          window.location.href = "/ownList";
+          window.location.href = "/my-product";
         }, 500);
       }
     } catch (error) {

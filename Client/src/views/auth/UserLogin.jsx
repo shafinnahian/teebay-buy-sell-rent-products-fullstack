@@ -26,7 +26,7 @@ const UserLogin = () => {
         
         toast.success("Login Successful!");
         setTimeout(() => {
-            window.location.href = "/dashboard";
+            window.location.href = "/add-product";
             }, 500);
       }
     } catch (error) {
