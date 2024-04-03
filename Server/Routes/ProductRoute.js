@@ -8,7 +8,7 @@ const route  = Router();
 
 route.post('/createProduct/:userID', productController.createProduct);
 
-route.get('/getAvailableProductList', productController.getProductsByType);
+route.get('/getAvailableProductList/:userID', productController.getProductsByType);
 route.get('/getProductList/:userID', productController.getProductList_userID);
 route.get('/getProduct/:productID', productController.getProductByID);
 

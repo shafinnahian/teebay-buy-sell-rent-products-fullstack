@@ -84,6 +84,12 @@ class ProductController{
     
     // this will be used for both selling and rending lists, hence validating type
     getProductsByType = asyncHandler(async (req, res) => {
+        const {userID} = req.params;
+
+        if (isNaN(userID)){
+            res.status(400)
+            throw new Error('Bad Request: Missing Required Field')
+        }
         try{
             let productList = [];
 
@@ -95,6 +101,8 @@ class ProductController{
             // [productSold => Product] Will only list the items from Product table that have not been sold i.g. not in ProductSold table
             // [productRented => Product] Will only list the items from Product table that have not been rented i.g. not false as itemretrieved in ProductRent table
             // Will only bring items that have not been soft deleted 
+
+            // Finally, all available products THAT ARE NOT POSTED BY LOGGED IN USER will show
             productList = await prisma.$queryRaw`SELECT *
             FROM "Product"
             WHERE NOT EXISTS (
@@ -108,6 +116,7 @@ class ProductController{
                 AND  "ProductRent".itemretrieved = false
             )
             AND "Product".softdelstat = false
+            AND "Product".userid <> ${Number(userID)}
             ORDER BY productid ASC;`
 
             console.log('productList', productList);
