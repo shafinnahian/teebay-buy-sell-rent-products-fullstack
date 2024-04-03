@@ -11,6 +11,7 @@ import AllProducts from './views/OwnProductList/AllProducts';
 import BorrowedList from './views/OwnProductList/BorrowedList';
 import LentList from './views/OwnProductList/LentList';
 import BoughtList from './views/OwnProductList/BoughtList';
+import SoldList from './views/OwnProductList/SoldList';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
       <Route path='/borrowed-list' element={<BorrowedList/>} />
       <Route path='/lent-list' element={<LentList/>}/>
       <Route path='/bought-list' element={<BoughtList/>}/>
+      <Route path='/sold-list' element={<SoldList/>}/>
     </Routes>
     </BrowserRouter>
   )

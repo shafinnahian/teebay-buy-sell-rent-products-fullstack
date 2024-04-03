@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const BoughtList = () => {
+const SoldList = () => {
     const [products, setProducts] = useState([]);
     const userID = localStorage.getItem('userID');
     
@@ -11,7 +11,7 @@ const BoughtList = () => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:4000/product/sold/getBoughtProducts/${userID}`
+                    `http://localhost:4000/product/sold/getSoldProducts/${userID}`
                 );
                 setProducts(response.data)
             } catch (error) {
@@ -49,4 +49,4 @@ const BoughtList = () => {
       );
 }
 
-export default BoughtList;
+export default SoldList;
